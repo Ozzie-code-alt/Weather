@@ -5,33 +5,49 @@ import React, { useState } from 'react'
 
 
 function Weather() {
+  const[global, setglobal] = useState(null)
   const [value, setValue] = useState('')
-  const handleInputChange = (event) => {
-    const value = event.target.value;
-    setValue(value);
+  const [days, setDays] = useState('')
+
+  const handleInputChange = async (event) => {
+    event.preventDefault()
+    const api_key = "f239f1ad70b1459f9e8141247230408"
+    const Location = value
+    const Days = days
+    const api_url =  `http://api.weatherapi.com/v1/forecast.json?key=${api_key}&q=${Location}&days=${days}`
+    console.log(Days)
+    const globalData = await getApi(api_url)
+    setglobal(globalData)
+    getApi(api_url)
   };
 
-  
-const api_key = "f239f1ad70b1459f9e8141247230408"
-const Location = value
 
-const api_url =  `http://api.weatherapi.com/v1/current.json?key=${api_key}&q=${Location}`
 async function getApi(url){
   const response = await fetch(url)
   var data = await response.json();
   console.log(data)
-
+ return data
 }
-
-getApi(api_url)
 
   return (
     <div>
+      <form onSubmit={handleInputChange}>
         <label htmlFor="PlaceInput">Place: </label>
-        <input type="text" value={value} name='PlaceInput' onChange={handleInputChange}/>
+        <input type="text" name='PlaceInput'  onChange={(e) => setValue(e.target.value)}/>
+        <label htmlFor="Days">days: </label>
+        <input type="text" name='Days' onChange={(e) =>setDays(e.target.value)} />
         <input type="submit" />
-        <p>{value}</p>
+        </form>
+      
+      {global && (
+        <div> 
+          <p> {global.location.lat}</p>
+        </div>
+      )}
+
     </div>
+
+
   )
 }
 
