@@ -5,7 +5,7 @@ import React, { useState } from 'react'
 
 
 function Weather() {
-  const[global, setglobal] = useState(null)
+  const[global, setglobal] = useState(null) // set Default value to null, can be changed to object  ask GPT how these works
   const [value, setValue] = useState('')
   const [days, setDays] = useState('')
 
@@ -16,14 +16,15 @@ function Weather() {
     const Days = days
     const api_url =  `http://api.weatherapi.com/v1/forecast.json?key=${api_key}&q=${Location}&days=${days}`
     console.log(Days)
+
     const globalData = await getApi(api_url)
-    setglobal(globalData)
+    setglobal(globalData) // seperate callback function for global access of API
     getApi(api_url)
   };
 
 
 async function getApi(url){
-  const response = await fetch(url)
+  const response = await fetch(url) // we await since it returns a PROMISE 
   var data = await response.json();
   console.log(data)
  return data
@@ -33,15 +34,15 @@ async function getApi(url){
     <div>
       <form onSubmit={handleInputChange}>
         <label htmlFor="PlaceInput">Place: </label>
-        <input type="text" name='PlaceInput'  onChange={(e) => setValue(e.target.value)}/>
+        <input type="text" name='PlaceInput'  onChange={(e) => setValue(e.target.value)}/> {/* we then get our input from txtboxes*/}
         <label htmlFor="Days">days: </label>
         <input type="text" name='Days' onChange={(e) =>setDays(e.target.value)} />
         <input type="submit" />
         </form>
       
-      {global && (
+      {global && (// if global is true then ? ask GPT how this works
         <div> 
-          <p> {global.location.lat}</p>
+          <p> {global.location.lat}</p> {/* access global state here and add to DOM*/}
         </div>
       )}
 
