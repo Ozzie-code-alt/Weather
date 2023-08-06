@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import './styles/weather.css'
-
+import DataVisualized from './DataVisualized';
 
 
 
@@ -34,21 +34,32 @@ async function getApi(url){
 
       <form onSubmit={handleInputChange} className='weather-inputs'>
         <label htmlFor="PlaceInput">Place: </label>
-        <input type="text" name='PlaceInput'  onChange={(e) => setValue(e.target.value)}/> {/* we then get our input from txtboxes*/}
+        <input type="text" name='PlaceInput'  onChange={(e) => setValue(e.target.value)} required/> {/* we then get our input from txtboxes*/}
         <label htmlFor="Days">days: </label>
-        <input type="text" name='Days' onChange={(e) =>setDays(e.target.value)} />
+        <input type="text" name='Days' onChange={(e) =>setDays(e.target.value)} required/>
         <input type="submit" />
+        
+
         </form>
       
       {global && (// if global is true then ? ask GPT how this works
 
-        <div className='data-container'> 
-          <p> date now : {global.location.localtime}</p> {/* access global state here and add to DOM*/}
-          <p> max temp : {days} days from now {global.forecast.forecastday[days].day.maxtemp_c} </p>
-          <p> sunrise : {days} days from now {global.forecast.forecastday[days].astro.sunrise} </p>
-          <p> sunset : {days} days from now {global.forecast.forecastday[days].astro.sunset} </p>
-          <p> date : {days} days from now {global.forecast.forecastday[days].date} </p>
-        </div>
+<div className='data-container'>
+<p> date now: {global.location.localtime}</p>
+<p>
+  max temp: {days} days from now {global.forecast.forecastday[days].day.maxtemp_c}
+</p>
+<p>
+  sunrise: {days} days from now {global.forecast.forecastday[days].astro.sunrise}
+</p>
+<p>
+  sunset: {days} days from now {global.forecast.forecastday[days].astro.sunset}
+</p>
+<p>
+  date: {days} days from now {global.forecast.forecastday[days].date}
+</p>
+<DataVisualized forecast={global.forecast} />
+</div>
 
       )}
 

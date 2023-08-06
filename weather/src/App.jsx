@@ -9,6 +9,7 @@ function App() {
   <div className="main-container">
     <Weather/>
   </div>
+
     </>
   )
 }
