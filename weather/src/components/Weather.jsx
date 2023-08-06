@@ -12,11 +12,7 @@ function Weather() {
   const handleInputChange = async (event) => {
     event.preventDefault()
     const api_key = "f239f1ad70b1459f9e8141247230408"
-    const Location = value
-    const Days = days
-    const api_url =  `http://api.weatherapi.com/v1/forecast.json?key=${api_key}&q=${Location}&days=${days}`
-    console.log(Days)
-
+    const api_url =  `http://api.weatherapi.com/v1/forecast.json?key=${api_key}&q=${value}&days=${days}`
     const globalData = await getApi(api_url)
     setglobal(globalData) // seperate callback function for global access of API
     getApi(api_url)
@@ -30,6 +26,10 @@ async function getApi(url){
  return data
 }
 
+
+
+
+
   return (
     <div>
       <form onSubmit={handleInputChange}>
@@ -42,9 +42,15 @@ async function getApi(url){
       
       {global && (// if global is true then ? ask GPT how this works
         <div> 
-          <p> {global.location.lat}</p> {/* access global state here and add to DOM*/}
+          <p> {global.location.localtime}</p> {/* access global state here and add to DOM*/}
+            {console.log(global.forecast.forecastday[days -1])}
         </div>
+
       )}
+
+
+
+
 
     </div>
 
