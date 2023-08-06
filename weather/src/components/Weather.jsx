@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-
+import './styles/weather.css'
 
 
 
@@ -18,7 +18,6 @@ function Weather() {
     getApi(api_url)
   };
 
-
 async function getApi(url){
   const response = await fetch(url) // we await since it returns a PROMISE 
   var data = await response.json();
@@ -31,8 +30,9 @@ async function getApi(url){
 
 
   return (
-    <div>
-      <form onSubmit={handleInputChange}>
+    <div className='weather-main-container'>
+
+      <form onSubmit={handleInputChange} className='weather-inputs'>
         <label htmlFor="PlaceInput">Place: </label>
         <input type="text" name='PlaceInput'  onChange={(e) => setValue(e.target.value)}/> {/* we then get our input from txtboxes*/}
         <label htmlFor="Days">days: </label>
@@ -42,15 +42,12 @@ async function getApi(url){
       
       {global && (// if global is true then ? ask GPT how this works
 
-
-        
-        <div> 
-          <p> {global.location.localtime}</p> {/* access global state here and add to DOM*/}
-          <p>{global.forecast.forecastday[days].day.maxtemp_c} </p>
-          <p> sunrise {global.forecast.forecastday[days].astro.sunrise} </p>
-          <p> sunset {global.forecast.forecastday[days].astro.sunset} </p>
-          <p> curent day {global.forecast.forecastday[days].date} </p>
-
+        <div className='data-container'> 
+          <p> date now : {global.location.localtime}</p> {/* access global state here and add to DOM*/}
+          <p> max temp : {days} days from now {global.forecast.forecastday[days].day.maxtemp_c} </p>
+          <p> sunrise : {days} days from now {global.forecast.forecastday[days].astro.sunrise} </p>
+          <p> sunset : {days} days from now {global.forecast.forecastday[days].astro.sunset} </p>
+          <p> date : {days} days from now {global.forecast.forecastday[days].date} </p>
         </div>
 
       )}
