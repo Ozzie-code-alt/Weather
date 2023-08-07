@@ -6,8 +6,11 @@ import DataVisualized from './DataVisualized';
 
 function Weather() {
   const[global, setglobal] = useState(null) // set Default value to null, can be changed to object  ask GPT how these works
-  const [value, setValue] = useState('')
-  const [days, setDays] = useState('')
+  const [value, setValue] = useState('')// input events
+  const [days, setDays] = useState('') // input events
+  const formRef = useState(null) // blank event
+  const [resetData, setResetData] = useState(false);
+
 
   const handleInputChange = async (event) => {
     event.preventDefault()
@@ -16,6 +19,8 @@ function Weather() {
     const globalData = await getApi(api_url)
     setglobal(globalData) // seperate callback function for global access of API
     getApi(api_url)
+    formRef.current.reset()
+    setResetData(true);
   };
 
 async function getApi(url){
@@ -26,13 +31,14 @@ async function getApi(url){
 }
 
 
+
 // api variables :
 
 
   return (
     <div className='weather-main-container'>
 
-      <form onSubmit={handleInputChange} className='weather-inputs'>
+      <form onSubmit={handleInputChange} className='weather-inputs' ref={formRef}>
         <label htmlFor="PlaceInput">Place: </label>
         <input type="text" name='PlaceInput'  onChange={(e) => setValue(e.target.value)} required/> {/* we then get our input from txtboxes*/}
         <label htmlFor="Days">days: </label>
@@ -58,15 +64,11 @@ async function getApi(url){
 <p>
   date: {days} days from now {global.forecast.forecastday[days].date}
 </p>
-<DataVisualized forecast={global.forecast} />
+
+<DataVisualized forecast={global.forecast}/>
 </div>
 
       )}
-
-
-
-
-
     </div>
 
 
