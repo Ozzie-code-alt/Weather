@@ -10,6 +10,7 @@ function Weather() {
   const [days, setDays] = useState('') // input events
   const formRef = useState(null) // blank event
   const [resetData, setResetData] = useState(false);
+  const [forecastData, setForecastData] = useState(null);
 
 
   const handleInputChange = async (event) => {
@@ -20,6 +21,8 @@ function Weather() {
     setglobal(globalData) // seperate callback function for global access of API
     getApi(api_url)
     formRef.current.reset()
+    const newForecastData = fetchData(value, days);
+    setForecastData(newForecastData);
     setResetData(true);
   };
 
@@ -30,6 +33,9 @@ async function getApi(url){
  return data
 }
 
+const handleDataVisualizationReset = () => {
+  setResetData(false);
+};
 
 
 // api variables :
@@ -65,7 +71,7 @@ async function getApi(url){
   date: {days} days from now {global.forecast.forecastday[days].date}
 </p>
 
-<DataVisualized forecast={global.forecast}/>
+<DataVisualized forecast={forecastData} reset={resetData} onReset={handleDataVisualizationReset} key={resetData}/>
 </div>
 
       )}
